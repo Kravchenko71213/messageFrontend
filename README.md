@@ -9,6 +9,6 @@ Technologies:\
 -HTML\
 -SCSS\
 -MUI\
--bulma\
+-bulma
 
 Run `npm ci` and `npm start` to use it with the messageBackend (https://github.com/Kravchenko71213/messageBackend)
