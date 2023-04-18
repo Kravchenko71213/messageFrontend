@@ -31,6 +31,7 @@ function MyFormHelperText() {
 export const UsersPage = () => {
   const [error, setError] = usePageError('');
   const [message, setMessage] = useState('');
+  const [allMessages, setAllMessages] = useState([]);
   const [method, setMethod] = useState('xor');
   const [step, setStep] = useState(1);
   const [encryptedMessage, setEncryptedMessage] = useState('');
@@ -58,6 +59,8 @@ export const UsersPage = () => {
     setEncryptedMessage(res);
     setIsDecipher(false);
     setIsSave(true);
+    setAllMessages((allMessages) => [...allMessages, message]);
+    console.log(allMessages);
   }
 
   const handleChange = (event) => {
@@ -71,6 +74,21 @@ export const UsersPage = () => {
   const decipher = () => {
     setEncryptedMessage(message);
     setIsDecipher(true);
+  }
+
+  const encrypt = () => {
+    let res;
+
+    if (method === 'caesar') {
+      res = caesarShift(message, step);
+    } 
+
+    if (method === 'xor') {
+      res = xorCode(message);
+    } 
+
+    setEncryptedMessage(res);
+    setIsDecipher(false);
   }
 
   return (
@@ -143,7 +161,7 @@ export const UsersPage = () => {
           </Stack>
          {isDecipher 
            ? (
-            <Button variant="outlined" onClick={save}>Encrypt</Button>
+            <Button variant="outlined" onClick={encrypt}>Encrypt</Button>
            )
             : (
               <Button variant="outlined" onClick={decipher}>Decipher</Button>
