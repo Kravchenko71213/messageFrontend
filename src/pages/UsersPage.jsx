@@ -12,6 +12,7 @@ import Select from '@mui/material/Select';
 import { caesarShift } from '../utils/Caesar.js';
 import { xorCode } from '../utils/xor.js';
 import SnackbarContent from '@mui/material/SnackbarContent';
+import Alert from '@mui/material/Alert';
 
 function MyFormHelperText() {
   const { focused } = useFormControl() || {};
@@ -30,13 +31,17 @@ function MyFormHelperText() {
 export const UsersPage = () => {
   const [error, setError] = usePageError('');
   const [message, setMessage] = useState('');
-  const [method, setMethod] = useState('');
+  const [method, setMethod] = useState('xor');
   const [step, setStep] = useState(1);
   const [encryptedMessage, setEncryptedMessage] = useState('');
   const [isDecipher, setIsDecipher] = useState(false);
+  const [isSave, setIsSave] = useState(false);
+
+  const emptyText = message.length === 0 && isSave === true;
 
   const clear = () => {
     setMessage('');
+    setIsSave(false);
   }
 
   const save = () => {
@@ -52,6 +57,7 @@ export const UsersPage = () => {
 
     setEncryptedMessage(res);
     setIsDecipher(false);
+    setIsSave(true);
   }
 
   const handleChange = (event) => {
@@ -91,7 +97,7 @@ export const UsersPage = () => {
               onChange={handleChange}
             >
               <MenuItem value={'caesar'}>Caesar</MenuItem>
-              <MenuItem value={'xor'}>xor</MenuItem>
+              <MenuItem selected value={'xor'}>xor</MenuItem>
             </Select>
         </FormControl>
       </Box>
@@ -145,6 +151,8 @@ export const UsersPage = () => {
         </div>
       </>
     )}
+
+    {emptyText && <Alert severity="error">Enter text</Alert>}
 
       {error && <p className="notification is-danger is-light">{error}</p>}
     </div>
